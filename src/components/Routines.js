@@ -9,13 +9,7 @@ const Routines = () => {
     const [routines, setRoutines] = useState([]);
     const [name, setName] = useState("")
     const [goal, setGoal] = useState("")
-    // const turnToArray = (obj) => {
-    //     const routineArr = [];
-    //     for (let objs of obj) {
-    //         routineArr.push(objs);
-    //     }
-    //     return routineArr
-    // }
+
 
     const getAllRoutines = async () => {
         const result = await fetch('http://fitnesstrac-kr.herokuapp.com/api/routines', {

@@ -8,7 +8,7 @@ import {
     Link,
     useHistory, Route
 } from "react-router-dom";
-import SignUpUser from './SignUp'
+//import SignUpUser from './SignUp'
 import Routines from './Routines'
 import Activities from './Activities'
 import MyRoutines from "./MyRoutines.js";

@@ -93,6 +93,7 @@ const Routines = () => {
 
     }
 
+                
 
 
     useEffect(() => {
@@ -104,10 +105,16 @@ const Routines = () => {
 
     return (
         <div>
-
+            <form>
+                Add a new Routine:
+                <input placeholder='name' onChange={(event) => { setName(event.target.value) }}></input>
+                <input placeholder='goal' onChange={(event) => { setGoal(event.target.value) }}></input>
+                <button onClick={(event) => { addRoutine(event) }}>Submit new Routine!</button>
+            </form>
             {/* <button>ROUTINE CHECK!!!</button> */}
             <div>{routines.map((route) => <div key={route.id}> <h1>{route.name}</h1>
                 <h2>Goal: {route.goal}</h2>
+                <button id={route.id} onClick={(event) => deleteRoutine(event.target.id)}>Delete Routine</button>
                 <div>
                     {route.activities ?
                         route.activities.map((ra) => {
@@ -116,6 +123,7 @@ const Routines = () => {
                                 <h4>{ra.description}</h4>
                                 <p> Count: {ra.count}</p>
                                 <p> Duration: {ra.duration}</p>
+                                <button id={ra.id} onClick={(event) => deleteRoutineActivity(event.target.id)}>Delete Routine Activity</button>
                             </div>
                         })
                         : null}

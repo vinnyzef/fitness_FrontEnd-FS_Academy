@@ -8,11 +8,13 @@ import {
     Link,
     useHistory, Route
 } from "react-router-dom";
-import SignUp from './SignUp'
+import SignUpUser from './SignUp'
 import Routines from './Routines'
 import Activities from './Activities'
 import MyRoutines from "./MyRoutines.js";
-
+import SignUp from "./SignUpUser";
+import LogIn from "./LogInUser"
+import Navbar from "./Navbar";
 const App = () => {
     const [token, setToken] = useState("")
 
@@ -23,18 +25,8 @@ const App = () => {
 
         <Router>
             <div>
-                <nav style={{ backgroundColor: "black", color: "white", display: "flex", flexDirection: "row", justifyContent: "end" }}>
-
-                    <button><Link to="/routines">Go to Routines</Link></button>
-
-                    <button><Link to="/activities">Go to Activities</Link></button>
-
-                    <button><Link to="/myroutines">Go to My Routines</Link></button>
-
-                </nav>
-                <h1>
-                    Welcome to Fitness-Trackr!
-                  </h1>
+                
+                <Navbar />
 
             </div>
 
@@ -49,7 +41,9 @@ const App = () => {
 
 
                 <Route path="/activities" element={<Activities />}></Route>
-
+                
+                <Route path="/LogInUser" element={<LogIn />} />
+                <Route path="/SignUpUser" element={<SignUp />} />
 
 
             </Switch>

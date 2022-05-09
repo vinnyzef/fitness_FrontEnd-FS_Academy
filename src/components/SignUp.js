@@ -29,7 +29,6 @@ const SignUp = (props) => {
             })
             .catch(console.error);
     }
-
     //calls to api to login user
     const LogInUser = (userObject) => {
         console.log(userObject)

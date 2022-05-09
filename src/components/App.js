@@ -10,6 +10,11 @@ import {
 } from "react-router-dom";
 import SignUp from './SignUp'
 import Routines from './Routines'
+import Activities from './Activities'
+import MyRoutines from "./MyRoutines.js";
+import LogIn from "./LogInUser";
+import SignUpUser from "./SignUpUser"
+import Navbar from "./Navbar";
 const App = () => {
     const [token, setToken] = useState("")
 
@@ -20,16 +25,8 @@ const App = () => {
 
         <Router>
             <div>
-                <nav style={{ backgroundColor: "black", color: "white", display: "flex", flexDirection: "row", justifyContent: "end" }}>
-
-                    <button><Link to="/routines">Go to Routines</Link></button>
-
-                    <button><Link to="/activities">Go to Activities</Link></button>
-
-                </nav>
-                <h1>
-                    Welcome to Fitness-Trackr!
-                  </h1>
+                
+                <Navbar />
 
             </div>
 
@@ -38,15 +35,17 @@ const App = () => {
                     : (<Route exact path="/" element={<SignUp token={token} setToken={setToken} />} />)
                 }
 
-                <Route path="/routines" element={<Routines />} />
+                <Route path="/routines" element={<Routines token={token} setToken={setToken} />} />
+                <Route path="/myroutines" element={< MyRoutines token={token} setToken={setToken} />} />
 
 
 
-                {token ? null : (
-                    <Route path="/activities"></Route>
+                <Route path="/activities" element={<Activities />}></Route>
+                
+                <Route path="/LogInUser" element={<LogIn />} />
+                <Route path="/SignUpUser" element={<SignUpUser />} />
 
-                )
-                }
+
             </Switch>
 
 

@@ -3,6 +3,7 @@ import React, { useState } from "react"
 
 
 
+
 const SignUp = (props) => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -67,27 +68,28 @@ const SignUp = (props) => {
         setUsername("");
         setPassword("");
     }
-    const handleLogIn = (event) => {
-        event.preventDefault()
-        const temp =
-        {
-            username: username,
-            password: password
-        }
-            ;
-        LogInUser(temp);
-        //clears temp object for future inputs
-        temp = {};
+    
+
+    const handleLogIn = async (event) => {
+        event.preventDefault();
+        const response = await LogInUser(username, password)
+        if (response) {
+           return (LogInUser);
+         } else {
+           alert("Invalid Login, Try Again")
+         }
         setUsername("");
         setPassword("");
-    }
+        setLoggedIn(true);
+      };
+
+
     return (
         <>
             <form>
                 {/* <input value={user} onChange={handleChange} placeholder="user"></input> */}
                 <input placeholder="Username" onChange={(event) => { setUsername(event.target.value) }}></input>
-                <input placeholder="Password" onChange={(event) => { setPassword(event.target.value) }}
-                ></input>
+                <input placeholder="Password" onChange={(event) => { setPassword(event.target.value) }}></input>
             </form>
             <button onClick={handleLogIn}>Log-in</button>
             <button onClick={handleSignUp}>

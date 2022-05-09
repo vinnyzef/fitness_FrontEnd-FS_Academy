@@ -134,9 +134,27 @@ const MyRoutines = () => {
             throw (error)
         }
     }
-    // const updateActivity = async (actId) => { 
+    const updateActivity = async (raId) => {
+        try {
+            const result = await fetch(`http://fitnesstrac-kr.herokuapp.com/api/routine_activities/${raId}`, {
+                method: "PATCH",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`,
+                },
+                body: JSON.stringify({
+                    count: count,
+                    duration: duration
+                })
+            })
+            console.log(await result.json())
+            getAllRoutines()
 
-    // }
+        } catch (error) {
+            console.error(error)
+            throw (error)
+        }
+    }
 
     const deleteRoutineActivity = async (raId) => {
         try {
@@ -147,7 +165,7 @@ const MyRoutines = () => {
                     'Authorization': `Bearer ${localStorage.getItem("token")}`
                 }
             })
-
+            getAllRoutines()
         } catch (error) {
             console.error(error)
             throw error
@@ -160,14 +178,19 @@ const MyRoutines = () => {
         console.log(count)
         console.log(duration)
         console.log(actId)
+        // event.preventDefault
         try {
             const result = await fetch(`http://fitnesstrac-kr.herokuapp.com/api/routines/${id}/activities`, {
                 method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`
+                },
                 body: JSON.stringify({
                     activityId: actId,
                     count: count,
                     duration: duration
-                }),
+                })
             })
             console.log(await result.json())
             getAllRoutines()
@@ -211,7 +234,8 @@ const MyRoutines = () => {
                     <input placeholder='duration' onChange={(event) => { setDuration(event.target.value) }}></input>
                     <input placeholder='count' onChange={(event) => { setCount(event.target.value) }}></input>
                     <select id="activities" name="activities" onChange={(event) => { setActId(event.target.value) }}>
-                        {activities.map((act) => { return <option value={act.name} key={act.id}>{act.name}</option> })}
+                        <option value="" disabled selected>Select your option</option>
+                        {activities.map((act) => { return <option value={act.id} key={act.id}>{act.name}</option> })}
 
 
                     </select>
@@ -227,12 +251,17 @@ const MyRoutines = () => {
                                 <h4>{ra.description}</h4>
                                 <p> Count: {ra.count}</p>
                                 <p> Duration: {ra.duration}</p>
-                                <button id={ra.id} onClick={(event) => deleteRoutineActivity(event.target.id)}>Delete Routine Activity</button>
+                                <div>
+                                    <input placeholder='duration' onChange={(event) => { setDuration(event.target.value) }}></input>
+                                    <input placeholder='count' onChange={(event) => { setCount(event.target.value) }}></input>
+                                    <button id={ra.routineActivityId} onClick={(event) => updateActivity(event.target.id)}>Update activity</button>
+                                </div>
+                                <button id={ra.routineActivityId} onClick={(event) => deleteRoutineActivity(event.target.id)}>Delete Routine Activity</button>
                             </div>
                         })
                         : null}
 
-""
+
                 </div>
 
 

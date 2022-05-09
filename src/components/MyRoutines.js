@@ -234,7 +234,7 @@ const MyRoutines = () => {
                     <input placeholder='duration' onChange={(event) => { setDuration(event.target.value) }}></input>
                     <input placeholder='count' onChange={(event) => { setCount(event.target.value) }}></input>
                     <select id="activities" name="activities" onChange={(event) => { setActId(event.target.value) }}>
-                        <option value="" disabled selected>Select your option</option>
+                        <option defaultValue >Select your option</option>
                         {activities.map((act) => { return <option value={act.id} key={act.id}>{act.name}</option> })}
 
 

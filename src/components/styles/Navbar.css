@@ -1,0 +1,27 @@
+.navlink {
+    color: white;
+    text-decoration: none;
+}
+
+.navlink:hover {
+    text-decoration: underline;
+}
+.body {
+    background-color: rgb(14, 13, 13);
+    color: white;
+    height: 4.5em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.title {
+  font-size: 24px;
+  padding-left: 1.5em;
+}
+
+.menuitems {
+  padding-right: 3vw;
+  display: flex;
+  gap: 50px;
+}

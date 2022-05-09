@@ -22,25 +22,33 @@ const Activities = () => {
 
     const addActivity = async (event) => {
         event.preventDefault()
+        let isRepeat = '';
+        activities.map((act) => { if (act.name === name && act.description === description) { isRepeat = true } })
+
 
         try {
-            const result = await fetch('http://fitnesstrac-kr.herokuapp.com/api/activities', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
-                },
-                body: JSON.stringify({
-                    name: name,
-                    description: description,
-                    isPublic: true
+            if (!isRepeat) {
+                const result = await fetch('http://fitnesstrac-kr.herokuapp.com/api/activities', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        description: description,
+                        isPublic: true
+                    })
                 })
-            })
-            const json = await result.json()
-            console.log(json)
-            setActivities([json, ...activities])
-            setName("")
-            setDescription("")
+                const json = await result.json()
+                console.log(json)
+                setActivities([json, ...activities])
+                setName("")
+                setDescription("")
+            }
+            else {
+                window.alert("You can't post the same activity twice!")
+            }
         }
         catch (error) {
             console.error(error)
@@ -69,24 +77,6 @@ const Activities = () => {
             {/* <button>Activity CHECK!!!</button> */}
             <div>{activities.map((route) => <div key={route.id}> <h1>{route.name}</h1>
                 <h2>Description: {route.description}</h2>
-                <button id={route.id} onClick={(event) => deleteActivity(event.target.id)}>Delete Activity</button>
-                <div>
-                    {route.activities ?
-                        route.activities.map((ra) => {
-                            return <div key={ra.id}>
-                                <h3>Activity: {ra.name}</h3>
-                                <h4>{ra.description}</h4>
-                                <p> Count: {ra.count}</p>
-                                <p> Duration: {ra.duration}</p>
-                                <button id={ra.id} onClick={(event) => deleteRoutineActivity(event.target.id)}>Delete Routine Activity</button>
-                            </div>
-                        })
-                        : null}
-
-
-                </div>
-
-
             </div>)}</div>
 
         </div>

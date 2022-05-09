@@ -10,6 +10,9 @@ import {
 } from "react-router-dom";
 import SignUp from './SignUp'
 import Routines from './Routines'
+import Activities from './Activities'
+import MyRoutines from "./MyRoutines.js";
+
 const App = () => {
     const [token, setToken] = useState("")
 
@@ -26,6 +29,8 @@ const App = () => {
 
                     <button><Link to="/activities">Go to Activities</Link></button>
 
+                    <button><Link to="/myroutines">Go to My Routines</Link></button>
+
                 </nav>
                 <h1>
                     Welcome to Fitness-Trackr!
@@ -38,15 +43,15 @@ const App = () => {
                     : (<Route exact path="/" element={<SignUp token={token} setToken={setToken} />} />)
                 }
 
-                <Route path="/routines" element={<Routines />} />
+                <Route path="/routines" element={<Routines token={token} setToken={setToken} />} />
+                <Route path="/myroutines" element={< MyRoutines token={token} setToken={setToken} />} />
 
 
 
-                {token ? null : (
-                    <Route path="/activities"></Route>
+                <Route path="/activities" element={<Activities />}></Route>
 
-                )
-                }
+
+
             </Switch>
 
 

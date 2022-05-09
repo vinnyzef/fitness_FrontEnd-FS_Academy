@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react"
 
 
 
+
 const Routines = () => {
 
     const [routines, setRoutines] = useState([]);
@@ -27,7 +28,9 @@ const Routines = () => {
 
 
     }
-    const addRoutine = async (n, g) => {
+    const addRoutine = async (event) => {
+        event.preventDefault()
+
         try {
             const result = await fetch('http://fitnesstrac-kr.herokuapp.com/api/routines', {
                 method: "POST",
@@ -36,14 +39,16 @@ const Routines = () => {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
                 body: JSON.stringify({
-                    name: n,
-                    goal: g,
+                    name: name,
+                    goal: goal,
                     isPublic: true
                 })
             })
             const json = await result.json()
             console.log(json)
-
+            setRoutines([json, ...routines])
+            setName("")
+            setGoal("")
         }
 
         catch (error) {
@@ -51,14 +56,43 @@ const Routines = () => {
             throw (error)
         }
     }
+    const deleteRoutine = async (routineId) => {
+        try {
+            await fetch(`http://fitnesstrac-kr.herokuapp.com/api/routines/${routineId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
 
-    const handleRoutine = (event) => {
-        event.preventDefault()
+            })
 
-        addRoutine(name, goal);
-        //clears values
-        setName("");
-        setGoal("");
+            await getAllRoutines()
+
+        } catch (error) {
+            console.error(error)
+            throw (error)
+        }
+
+    }
+
+    const deleteRoutineActivity = async (raId) => {
+        try {
+            await fetch(`http://fitnesstrac-kr.herokuapp.com/api/routine_activities/${raId}`, {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`
+                }
+            })
+
+        } catch (error) {
+            console.error(error)
+            throw error
+
+        }
+
+
     }
 
 
@@ -72,24 +106,25 @@ const Routines = () => {
 
     return (
         <div>
-            <form>
-                Add a new Routine:
-                <input placeholder='name' onChange={(event) => { setName(event.target.value) }}></input>
-                <input placeholder='goal' onChange={(event) => { setGoal(event.target.value) }}></input>
-                <button onClick={handleRoutine}>Submit new Routine!</button>
-            </form>
+
             {/* <button>ROUTINE CHECK!!!</button> */}
-            <div>{routines.map((route) => <div> <h1>{route.name}</h1>
+            <div>{routines.map((route) => <div key={route.id}> <h1>{route.name}</h1>
                 <h2>Goal: {route.goal}</h2>
                 <div>
-                    {route.activities.map((ra) => {
-                        return <div>
-                            <h3>Activity: {ra.name}</h3>
-                            <h4>{ra.description}</h4>
-                            <p> Count: {ra.count}</p>
-                            <p> Duration: {ra.duration}</p></div>
-                    })}
+                    {route.activities ?
+                        route.activities.map((ra) => {
+                            return <div key={ra.id}>
+                                <h3>Activity: {ra.name}</h3>
+                                <h4>{ra.description}</h4>
+                                <p> Count: {ra.count}</p>
+                                <p> Duration: {ra.duration}</p>
+                            </div>
+                        })
+                        : null}
+
+
                 </div>
+
 
             </div>)}</div>
 

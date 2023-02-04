@@ -6,7 +6,7 @@
 .navlink:hover {
     text-decoration: underline;
 }
-.body {
+.nav_wrap {
     background-color: rgb(14, 13, 13);
     color: white;
     height: 4.5em;
@@ -23,5 +23,5 @@
 .menuitems {
   padding-right: 3vw;
   display: flex;
-  gap: 50px;
+  gap: 30p50px;
 }
